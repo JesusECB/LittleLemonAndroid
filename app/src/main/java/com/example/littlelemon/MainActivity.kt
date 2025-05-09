@@ -29,9 +29,9 @@ class MainActivity : ComponentActivity() {
                     val isLoggedIn = sharedPreferences.getString("firstName", null) != null
 
                     val startDestination = if (isLoggedIn) {
-                        OnboardingDestination.route
-                    } else {
                         HomeDestination.route
+                    } else {
+                        OnboardingDestination.route
                     }
 
                     NavigationComposable(
