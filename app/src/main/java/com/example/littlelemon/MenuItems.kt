@@ -9,27 +9,28 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.Alignment
 import coil.compose.AsyncImage
 
+
 @Composable
-fun MenuItems(db: AppDatabase) {
+fun MenuItems(
+    db: AppDatabase,
+    searchPhrase: String,
+    selectedCategory: String?
+) {
     val menuItemsState = produceState<List<MenuItemEntity>?>(initialValue = null, db) {
         value = db.menuDao().getAll()
     }
 
-    val menuItems = menuItemsState.value
+    val menuItems = menuItemsState.value?.filter {
+        val matchesSearch = searchPhrase.isBlank() || it.title.contains(searchPhrase, ignoreCase = true)
+        val matchesCategory = selectedCategory.isNullOrBlank() || it.category.equals(selectedCategory, ignoreCase = true)
+        matchesSearch && matchesCategory
+    }
 
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp)
-    ) {
-        if (menuItems != null) {
-            menuItems.forEach { item ->
-                MenuItemRow(item)
-                Divider()
-            }
-        } else {
-            Text("Loading menu...", style = MaterialTheme.typography.bodyLarge)
-        }
+    Column(Modifier.fillMaxWidth().padding(horizontal = 16.dp)) {
+        menuItems?.forEach { item ->
+            MenuItemRow(item)
+            Divider()
+        } ?: Text("Loading menu...", style = MaterialTheme.typography.bodyLarge)
     }
 }
 
