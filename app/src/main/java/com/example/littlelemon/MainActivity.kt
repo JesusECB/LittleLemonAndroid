@@ -36,11 +36,31 @@ class MainActivity : ComponentActivity() {
             LaunchedEffect(Unit) {
                 try {
                     val menu = withContext(Dispatchers.IO) { fetchMenu() }
-                    Log.d("NETWORK", "Fetched ${menu.menu.size} items")
+
+                    val db = AppDatabase.getDatabase(applicationContext)
+                    val dao = db.menuDao()
+
+                    val entities = menu.menu.map {
+                        MenuItemEntity(
+                            id = it.id,
+                            title = it.title,
+                            description = it.description,
+                            price = it.price,
+                            image = it.image,
+                            category = it.category
+                        )
+                    }
+
+                    withContext(Dispatchers.IO) {
+                        dao.insertAll(entities)
+                    }
+
+                    Log.d("NETWORK", "Saved ${entities.size} items to DB.")
                 } catch (e: Exception) {
-                    Log.e("NETWORK", "Error fetching menu: ${e.message}")
+                    Log.e("NETWORK", "Error fetching or saving menu: ${e.message}")
                 }
             }
+
 
             LittleLemonTheme {
                 Surface(
