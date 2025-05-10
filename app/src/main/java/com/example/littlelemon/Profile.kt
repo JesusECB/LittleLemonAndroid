@@ -10,11 +10,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 
 @Composable
 fun ProfileScreen(navController: NavHostController) {
@@ -40,14 +39,37 @@ fun ProfileScreen(navController: NavHostController) {
                 .height(100.dp)
                 .width(200.dp)
         )
+
+        // Header
         Text(
-            text = "Profile",
+            text = "Personal information",
             style = MaterialTheme.typography.titleLarge
         )
 
-        Text("First Name: $firstName", fontSize = 18.sp)
-        Text("Last Name: $lastName", fontSize = 18.sp)
-        Text("Email: $email", fontSize = 18.sp)
+        // Outlined fields
+        OutlinedTextField(
+            value = firstName,
+            onValueChange = {},
+            label = { Text("First name") },
+            readOnly = true,
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        OutlinedTextField(
+            value = lastName,
+            onValueChange = {},
+            label = { Text("Last name") },
+            readOnly = true,
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        OutlinedTextField(
+            value = email,
+            onValueChange = {},
+            label = { Text("Email") },
+            readOnly = true,
+            modifier = Modifier.fillMaxWidth()
+        )
 
         Spacer(modifier = Modifier.height(24.dp))
 
@@ -59,12 +81,12 @@ fun ProfileScreen(navController: NavHostController) {
                 }
             },
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF495E57),
-                contentColor = Color.White
+                containerColor = Color(0xFFF4CE14),
+                contentColor = Color.Black
             ),
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Logout")
+            Text("Log out")
         }
     }
 }

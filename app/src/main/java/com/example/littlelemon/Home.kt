@@ -1,57 +1,57 @@
 package com.example.littlelemon
 
-import android.content.Context
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import androidx.compose.ui.graphics.Color
 
 @Composable
 fun HomeScreen(navController: NavHostController) {
-    val context = LocalContext.current
-    val sharedPreferences = context.getSharedPreferences("LittleLemon", Context.MODE_PRIVATE)
-    val firstName = sharedPreferences.getString("firstName", "") ?: ""
-
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(24.dp),
-        verticalArrangement = Arrangement.spacedBy(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        verticalArrangement = Arrangement.SpaceBetween
     ) {
-        // Logo
-        Image(
-            painter = painterResource(id = R.drawable.logo),
-            contentDescription = "Little Lemon Logo",
-            modifier = Modifier
-                .height(100.dp)
-                .width(200.dp)
-        )
-
-        // Welcome message
-        Text(
-            text = "Welcome, $firstName!",
-            style = MaterialTheme.typography.titleLarge
-        )
-
-        // Profile navigation button
-        Button(
-            onClick = { navController.navigate(ProfileDestination.route) },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF495E57),
-                contentColor = Color.White
-            )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.End
         ) {
-            Text("Go to Profile")
+            Image(
+                painter = painterResource(id = R.drawable.profile),
+                contentDescription = "Profile Icon",
+                modifier = Modifier
+                    .size(75.dp)
+                    .clickable {
+                        navController.navigate(ProfileDestination.route)
+                    }
+            )
+        }
+
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.logo),
+                contentDescription = "Little Lemon Logo",
+                modifier = Modifier
+                    .width(250.dp)
+                    .height(100.dp)
+            )
+            Spacer(modifier = Modifier.height(24.dp))
+            Text("Welcome to the Home screen!", style = MaterialTheme.typography.titleLarge)
         }
     }
 }
@@ -59,5 +59,7 @@ fun HomeScreen(navController: NavHostController) {
 @Preview(showBackground = true)
 @Composable
 fun HomePreview() {
-    HomeScreen(navController = rememberNavController())
+    Surface {
+        HomeScreen(navController = rememberNavController())
+    }
 }
