@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("org.jetbrains.kotlin.kapt")
+    id("org.jetbrains.kotlin.plugin.serialization")
 
 }
 
@@ -41,6 +42,13 @@ android {
     }
 }
 
+kotlin {
+    sourceSets.all {
+        languageSettings.optIn("kotlinx.serialization.ExperimentalSerializationApi")
+    }
+}
+
+
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -59,10 +67,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation("androidx.navigation:navigation-compose:2.5.3")
-    implementation ("io.ktor:ktor-client-android:2.1.3")
-    implementation ("io.ktor:ktor-client-content-negotiation:2.1.3")
-    implementation ("io.ktor:ktor-serialization-kotlinx-json:2.1.3")
     // Ktor client for Android
+    implementation("io.ktor:ktor-client-android:2.3.4")
     implementation("io.ktor:ktor-client-core:2.3.4")
     implementation("io.ktor:ktor-client-okhttp:2.3.4")
     implementation("io.ktor:ktor-client-serialization:2.3.4")
