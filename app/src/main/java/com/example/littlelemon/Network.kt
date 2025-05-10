@@ -46,7 +46,7 @@ val client = HttpClient(Android) {
 
 // ✅ Función para hacer la petición
 suspend fun fetchMenu(): MenuNetwork {
-    val response: HttpResponse = client.get("https://raw.githubusercontent.com/Meta-Mobile-Developer-PC/Working-With-Data-API/main/menu.json")
+    val response: HttpResponse = client.get("https://raw.githubusercontent.com/JesusECB/Working-With-Data-API/main/menu.json")
     val rawJson = response.bodyAsText()
 
     return Json { ignoreUnknownKeys = true }.decodeFromString(rawJson)

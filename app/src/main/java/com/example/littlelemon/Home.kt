@@ -17,6 +17,11 @@ import androidx.navigation.compose.rememberNavController
 import androidx.compose.foundation.background
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+
+
 
 
 @Composable
@@ -35,7 +40,7 @@ fun HomeScreen(navController: NavHostController) {
                 painter = painterResource(id = R.drawable.profile),
                 contentDescription = "Profile Icon",
                 modifier = Modifier
-                    .size(75.dp)
+                    .size(50.dp)
                     .clickable {
                         navController.navigate(ProfileDestination.route)
                     }
@@ -45,7 +50,8 @@ fun HomeScreen(navController: NavHostController) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f),
+                .weight(1f)
+                .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = CenterHorizontally
         ) {
@@ -54,11 +60,12 @@ fun HomeScreen(navController: NavHostController) {
                 contentDescription = "Little Lemon Logo",
                 modifier = Modifier
                     .width(250.dp)
-                    .height(100.dp)
+                    .height(40.dp)
             )
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(14.dp))
             HeroSection()
         }
+
     }
 }
 
@@ -95,6 +102,10 @@ fun HeroSection() {
                 .height(180.dp)
         )
     }
+    val db = AppDatabase.getDatabase(LocalContext.current)
+    MenuItems(db)
+
+
 }
 
 
